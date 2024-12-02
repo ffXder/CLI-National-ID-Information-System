@@ -200,7 +200,7 @@ class NationalIDSystem implements Forms {
         String birthPlace = getString("Enter Birth City/Municipality: ");
 
         String maritalStatus = getString("Enter Marital Status: ");
-        String bloodType = getValidatedBirthDate();
+        String bloodType = getValidatedBloodType();
 
         PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender,
                 birthDate,
