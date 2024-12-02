@@ -6,6 +6,8 @@ import java.util.InputMismatchException;
 import java.time.format.DateTimeFormatter;
 import java.time.Period;
 import java.time.LocalDate;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 
 interface Forms {
     public void fillOut();
@@ -25,6 +27,9 @@ class PersonalInfo {
     private String birthPlace;
     private String maritalStatus;
     private String bloodType;
+
+    public PersonalInfo() {
+    }
 
     public PersonalInfo(String firstName, String middleName, String lastName, String gender,
             String dateOfBirth, String birthCountry, String birthProvince, String place, String status, String type) {
@@ -73,15 +78,9 @@ class PersonalInfo {
     }
 }
 
-class PermanentAddress {
-    private String address;
-    private String barangay;
-    private String place;
-    private String province;
-    private String country;
-    private String zipCode;
-    private String mobileNumber;
-    private String email;
+class Address extends PersonalInfo {
+    private String type;
+    private String address, barangay, place, province, country, zipCode, mobileNumber, email;
 
     public void setAddress(String address, String barangay, String place, String province, String country,
             String code, String number, String email) {
@@ -111,10 +110,6 @@ class PermanentAddress {
 
 }
 
-class Admin {
-
-}
-
 class NationalIDSystem implements Forms {
     private Map<Integer, PersonalInfo> database = new HashMap<>();
     private Scanner read = new Scanner(System.in);
@@ -125,6 +120,63 @@ class NationalIDSystem implements Forms {
     private String getString(String prompt) {
         System.out.print(prompt);
         return read.nextLine();
+    }
+
+    // this method will validate if the user input a valid gender
+    private String getValidatedGender() {
+        String gender;
+        while (true) {
+            gender = getString("Enter Sex (Kasarian): ");
+            if (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("M")
+                    || gender.equalsIgnoreCase("F")) {
+                return gender;
+            } else {
+                System.out.println("Invalid gender. Please enter Male or Female.");
+            }
+        }
+
+    }
+
+    // this method will validate if the user input a valid date
+    private String getValidatedBirthDate() {
+        while (true) {
+            try {
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                String birthDate = getString("Enter date of birth (YYYY/MM/DD): ");
+                LocalDate date = LocalDate.parse(birthDate, format);
+
+                if (date.isAfter(LocalDate.now())) {
+                    System.out.println("Date cannot be in the future. Please try again.");
+                    continue;
+                }
+
+                Period period = Period.between(date, LocalDate.now());
+                int age = period.getYears();
+
+                if (age < 0) {
+                    System.out.println("Please enter a valid date.");
+                    continue;
+                }
+
+                System.out.println("Age: " + age);
+                return birthDate; // Return the valid date
+            } catch (Exception e) {
+                System.out.println("Invalid date format. Please use YYYY/MM/DD.");
+            }
+        }
+    }
+
+    // this method will validate the blood type inputted by users
+    private String getValidatedBloodType() {
+        while (true) {
+            String bloodType = getString("Enter Blood Type: ").toUpperCase();
+            if (bloodType.matches("(A|B|O|AB)[+-]")) {
+                return bloodType;
+            } else {
+                System.out.println("Please enter a valid bloodtype.");
+            }
+        }
+
     }
 
     public void fillOut() {
@@ -138,23 +190,9 @@ class NationalIDSystem implements Forms {
         // System.out.print("Does your name have suffix? (Y/N): ");
         // String choice = read.nextLine();
 
-        String gender = getString("Enter Sex (Kasarian): ");
+        String gender = getValidatedGender();
 
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String birthDate = getString("Enter date of birth (YYYY/MM/DD): ");
-
-        try {
-            LocalDate date = LocalDate.parse(birthDate, format);
-
-            if (date.isBefore(LocalDate.now())) {
-                Period period = Period.between(date, LocalDate.now()); // calculate the age from the year to present
-                int age = period.getYears(); // get the years
-                System.out.println("Age: " + age);
-                throw new IllegalArgumentException("Invalid date of birth!");
-            }
-        } catch (Exception e) {
-            System.out.println("You must follow the format YYYY/MM/DD.");
-        }
+        String birthDate = getValidatedBirthDate();
 
         // Address
         String birthCountry = getString("Enter Birth Country: ");
@@ -162,15 +200,28 @@ class NationalIDSystem implements Forms {
         String birthPlace = getString("Enter Birth City/Municipality: ");
 
         String maritalStatus = getString("Enter Marital Status: ");
-        String bloodType = getString("Enter Blood Type: ");
+        String bloodType = getValidatedBirthDate();
 
-        PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender, birthDate, birthCountry,
+        PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender,
+                birthDate,
+                birthCountry,
                 birthProvince, birthPlace, maritalStatus, bloodType);
 
-        int nationalID = generate.nextInt(100) + 50; // genarate id using random numbers
-        database.put(nationalID, personalInfo);
-        System.out.println("Successfully registered. Thank you for using our System."
-                + "\nYour ID number is " + nationalID);
+        personalInfo.displayInfo();
+        System.out.println("Press Y to confirm submission or Press N to cancel");
+        String confirmation = read.nextLine();
+
+        // adds confirmation before submitting data
+        if (confirmation.equalsIgnoreCase("Y")) {
+            int nationalID = generate.nextInt(100) + 50; // genarate id using random numbers
+            database.put(nationalID, personalInfo);
+            System.out.println("Successfully registered. Thank you for using our System."
+                    + "\nYour ID number is " + nationalID);
+
+        } else {
+            System.out.println("Successfully cancalled. Thank you for using our system.");
+        }
+
     }
 
     // this method will retrieve the information
@@ -206,7 +257,7 @@ public class RunSystem {
             System.out.println("=============================================");
             System.out.println(" Welcome to Philippine Identification System ");
             System.out.println("=============================================");
-            System.out.println("1 - Register\n2 - Retrieve Information\n3 - Exit");
+            System.out.println("1 - Register\n2 - Find ID\n3 - Exit");
             int option = input.nextInt();
             input.nextLine();
 
