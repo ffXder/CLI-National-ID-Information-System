@@ -37,6 +37,7 @@ public class Admin {
                     case 3 -> {
                     }
                     case 4 -> {
+                        input.nextLine();
                         System.out.println("Are you sure you want to quit? (Y/N)");
                         String confirm = input.nextLine().trim();
 
