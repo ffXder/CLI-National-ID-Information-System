@@ -6,6 +6,8 @@ import java.util.InputMismatchException;
 import java.time.format.DateTimeFormatter;
 import java.time.Period;
 import java.time.LocalDate;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 
 interface Forms {
     public void fillOut();
@@ -25,6 +27,9 @@ class PersonalInfo {
     private String birthPlace;
     private String maritalStatus;
     private String bloodType;
+
+    public PersonalInfo() {
+    }
 
     public PersonalInfo(String firstName, String middleName, String lastName, String gender,
             String dateOfBirth, String birthCountry, String birthProvince, String place, String status, String type) {
@@ -73,15 +78,9 @@ class PersonalInfo {
     }
 }
 
-class PermanentAddress {
-    private String address;
-    private String barangay;
-    private String place;
-    private String province;
-    private String country;
-    private String zipCode;
-    private String mobileNumber;
-    private String email;
+class Address extends PersonalInfo {
+    private String type;
+    private String address, barangay, place, province, country, zipCode, mobileNumber, email;
 
     public void setAddress(String address, String barangay, String place, String province, String country,
             String code, String number, String email) {
@@ -177,6 +176,7 @@ class NationalIDSystem implements Forms {
                 System.out.println("Please enter a valid bloodtype.");
             }
         }
+
     }
 
     public void fillOut() {
@@ -202,6 +202,7 @@ class NationalIDSystem implements Forms {
         String maritalStatus = getString("Enter Marital Status: ");
         String bloodType = getValidatedBloodType();
 
+        String address = getString("");
         PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender,
                 birthDate,
                 birthCountry,
@@ -221,6 +222,7 @@ class NationalIDSystem implements Forms {
         } else {
             System.out.println("Successfully cancalled. Thank you for using our system.");
         }
+
     }
 
     // this method will retrieve the information
@@ -251,36 +253,30 @@ public class RunSystem {
 
         Scanner input = new Scanner(System.in);
         NationalIDSystem system = new NationalIDSystem();
-        Admin admin = new Admin();
 
         while (true) {
-            try {
-                System.out.println("=============================================");
-                System.out.println(" Welcome to Philippine Identification System ");
-                System.out.println("=============================================");
-                System.out.println("1 - Register\n2 - Retrieve Information\n3 - Exit");
-                int option = input.nextInt();
-                input.nextLine();
+            System.out.println("=============================================");
+            System.out.println(" Welcome to Philippine Identification System ");
+            System.out.println("=============================================");
+            System.out.println("1 - Register\n2 - Find ID\n3 - Exit");
+            int option = input.nextInt();
+            input.nextLine();
 
-                switch (option) {
-                    case 0 -> admin.adminMenu();
-                    case 1 -> system.fillOut();
-                    case 2 -> system.findID();
-                    case 3 -> {
-                        System.out.println("Are you sure you want to quit? (Y/N)");
-                        String confirm = input.nextLine().trim();
+            switch (option) {
+                case 1 -> system.fillOut();
+                case 2 -> system.findID();
+                case 3 -> {
+                    System.out.println("Are you sure you want to quit? (Y/N)");
+                    String confirm = input.nextLine().trim();
 
-                        if (confirm.equalsIgnoreCase("Y")) {
-                            System.out.println("Thank you for using our system! Exiting the Program.");
-                            input.close();
-                            System.exit(0);
-                        }
-
+                    if (confirm.equalsIgnoreCase("Y")) {
+                        System.out.println("Thank you for using our system! Exiting the Program.");
+                        input.close();
+                        System.exit(0);
                     }
-                    default -> System.out.println("Invalid input");
+
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number. ");
+                default -> System.out.println("Invalid input");
             }
         }
     }
