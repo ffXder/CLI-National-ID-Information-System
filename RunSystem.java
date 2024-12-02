@@ -108,6 +108,17 @@ class NationalIDSystem implements Forms {
 
     }
 
+    /*
+     * private String getSuffix() {
+     * String choice = getString("Does you name have suffix (Y/N): ");
+     * if (choice.equalsIgnoreCase("Y")) {
+     * String suffix = getString("Enter Suffix (e.g Sr.,III): ");
+     * return suffix;
+     * }
+     * 
+     * }
+     */
+
     public void fillOut() {
 
         // Display
@@ -115,9 +126,6 @@ class NationalIDSystem implements Forms {
         String firstName = getString("Enter First Name (Pangalan): ");
         String middleName = getString("Enter Middle Name (Gitnang Pangalan): ");
         String lastName = getString("Enter Last Name (Apelyido): ");
-
-        // System.out.print("Does your name have suffix? (Y/N): ");
-        // String choice = read.nextLine();
 
         String gender = getValidatedGender();
         String birthDate = getValidatedBirthDate();
