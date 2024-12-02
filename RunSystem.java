@@ -111,37 +111,6 @@ class PermanentAddress {
 
 }
 
-class Admin {
-    private final String username = "admin";
-    private final String password = "admin123";
-    private Scanner input = new Scanner(System.in);
-
-    private boolean authenticateAdmin() {
-        System.out.print("Enter username: ");
-        String inputUsername = input.nextLine();
-        System.out.print("Enter password: ");
-        String inputPassword = input.nextLine();
-
-        return inputUsername.equals(username) && inputPassword.equals(password);
-
-    }
-
-    public void adminMenu() {
-        if (!authenticateAdmin()) {
-            System.out.print("Login Unsuccessful. Please check your password or username. ");
-            return;
-        }
-        while (true) {
-            System.out.println("========================");
-            System.out.println("|      Admin Menu      |");
-            System.out.println("========================");
-            System.out.println("1 - Edit Record\n2 - Delete Record\n3 - Check Record\n4- Exit");
-            int choice = input.nextInt();
-        }
-    }
-
-}
-
 class NationalIDSystem implements Forms {
     private Map<Integer, PersonalInfo> database = new HashMap<>();
     private Scanner read = new Scanner(System.in);
@@ -191,7 +160,8 @@ class NationalIDSystem implements Forms {
         String maritalStatus = getString("Enter Marital Status: ");
         String bloodType = getString("Enter Blood Type: ");
 
-        PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender, birthDate, birthCountry,
+        PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender, birthDate,
+                birthCountry,
                 birthProvince, birthPlace, maritalStatus, bloodType);
 
         int nationalID = generate.nextInt(100) + 50; // genarate id using random numbers
@@ -228,30 +198,36 @@ public class RunSystem {
 
         Scanner input = new Scanner(System.in);
         NationalIDSystem system = new NationalIDSystem();
+        Admin admin = new Admin();
 
         while (true) {
-            System.out.println("=============================================");
-            System.out.println(" Welcome to Philippine Identification System ");
-            System.out.println("=============================================");
-            System.out.println("1 - Register\n2 - Retrieve Information\n3 - Exit");
-            int option = input.nextInt();
-            input.nextLine();
+            try {
+                System.out.println("=============================================");
+                System.out.println(" Welcome to Philippine Identification System ");
+                System.out.println("=============================================");
+                System.out.println("1 - Register\n2 - Retrieve Information\n3 - Exit");
+                int option = input.nextInt();
+                input.nextLine();
 
-            switch (option) {
-                case 1 -> system.fillOut();
-                case 2 -> system.findID();
-                case 3 -> {
-                    System.out.println("Are you sure you want to quit? (Y/N)");
-                    String confirm = input.nextLine().trim();
+                switch (option) {
+                    case 0 -> admin.adminMenu();
+                    case 1 -> system.fillOut();
+                    case 2 -> system.findID();
+                    case 3 -> {
+                        System.out.println("Are you sure you want to quit? (Y/N)");
+                        String confirm = input.nextLine().trim();
 
-                    if (confirm.equalsIgnoreCase("Y")) {
-                        System.out.println("Thank you for using our system! Exiting the Program.");
-                        input.close();
-                        System.exit(0);
+                        if (confirm.equalsIgnoreCase("Y")) {
+                            System.out.println("Thank you for using our system! Exiting the Program.");
+                            input.close();
+                            System.exit(0);
+                        }
+
                     }
-
+                    default -> System.out.println("Invalid input");
                 }
-                default -> System.out.println("Invalid input");
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number. ");
             }
         }
     }
