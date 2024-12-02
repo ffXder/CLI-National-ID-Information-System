@@ -112,6 +112,33 @@ class PermanentAddress {
 }
 
 class Admin {
+    private final String username = "admin";
+    private final String password = "admin123";
+    private Scanner input = new Scanner(System.in);
+
+    private boolean authenticateAdmin() {
+        System.out.print("Enter username: ");
+        String inputUsername = input.nextLine();
+        System.out.print("Enter password: ");
+        String inputPassword = input.nextLine();
+
+        return inputUsername.equals(username) && inputPassword.equals(password);
+
+    }
+
+    public void adminMenu() {
+        if (!authenticateAdmin()) {
+            System.out.print("Login Unsuccessful. Please check your password or username. ");
+            return;
+        }
+        while (true) {
+            System.out.println("========================");
+            System.out.println("|      Admin Menu      |");
+            System.out.println("========================");
+            System.out.println("1 - Edit Record\n2 - Delete Record\n3 - Check Record\n4- Exit");
+            int choice = input.nextInt();
+        }
+    }
 
 }
 
