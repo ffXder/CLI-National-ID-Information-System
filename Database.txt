@@ -1,4 +1,1 @@
-DatabaseHello this is your file
-Hello this is your file
-Hello this is your file
-| Dela Cruz, Juan, Garcia, 2000/11/23, A-|
+| Dela Cruz, Juan, Garcia, 2000/11/23, A-|| 65 Dimagiba, Mary, Dimaano, 2006/12/23, AB+|

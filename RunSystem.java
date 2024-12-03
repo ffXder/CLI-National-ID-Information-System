@@ -183,10 +183,10 @@ class NationalIDSystem implements Forms {
                 PersonalInfo info = record.getInfo();
 
                 // test
-                writer.write("| ");
+                writer.write("| " + id + " ");
                 writer.write(info.getLastName() + ", " + info.getFirstName() + ", " + info.getMiddleName() + ", "
                         + info.getDateOfBirth() + ", " + info.getBloodType());
-                writer.write("|");
+                writer.write("|\n");
                 writer.close();
 
             }
