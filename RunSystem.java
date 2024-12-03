@@ -6,8 +6,7 @@ import java.util.InputMismatchException;
 import java.time.format.DateTimeFormatter;
 import java.time.Period;
 import java.time.LocalDate;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.*;
 
 interface Forms {
     public void fillOut();
@@ -102,7 +101,7 @@ class NationalIDSystem implements Forms {
             if (bloodType.matches("^(A|B|O|AB)[+-]$")) {
                 return bloodType;
             } else {
-                System.out.println("Please enter a valid bloodtype.");
+                System.out.println("Please enter a valid blood type.");
             }
         }
 
@@ -154,7 +153,9 @@ class NationalIDSystem implements Forms {
         Address add = new Address(); // adds address
         add.setAddress(address, barangay, place, province, country, zipCode, mobileNumber, email);
 
-        personalInfo.displayInfo();
+        personalInfo.displayInfo(); // display the info
+        add.displayInfo(); // display the address
+
         String confirmation = getString("Press Y to confirm submission or Press N to cancel\n");
 
         // adds confirmation before submitting data
@@ -163,11 +164,34 @@ class NationalIDSystem implements Forms {
             database.put(nationalID, new UsersRecord(personalInfo, add));
             System.out.println("Successfully registered. Thank you for using our System."
                     + "\nYour ID number is " + nationalID);
-
-        } else {
+            saveInfo();
+        } else if (confirmation.equalsIgnoreCase("N")) {
             System.out.println("Successfully cancelled. Thank you for using our system.");
+        } else {
+            System.out.println("Invalid input. Please enter Y or N.");
         }
 
+    }
+
+    // this method will save the information in file as database
+    private void saveInfo() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Database.txt"))) {
+            writer.write("Hello, Successfully save to database");
+        } catch (IOException e) {
+            System.out.println("ERROR");
+        }
+
+    }
+
+    private void loadInfo() {
+        try (BufferedReader reader = new BufferedReader(new FileReader("Database.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("ERROR");
+        }
     }
 
     // this method will retrieve the information
@@ -177,6 +201,7 @@ class NationalIDSystem implements Forms {
             UsersRecord record = database.get(id);
             System.out.println("ID number: " + id);
             record.displayInfo();
+            loadInfo();
         } else {
             System.out.println("The ID Number " + id + " is not found");
         }
