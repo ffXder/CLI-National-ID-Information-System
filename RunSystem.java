@@ -40,7 +40,7 @@ class UsersRecord {
 }
 
 class NationalIDSystem implements Forms {
-    private Map<Integer, UsersRecord> database = new HashMap<>();
+    private Map<Integer, UsersRecord> database = new HashMap<>(); // hashmap to store data with key and value
     private Scanner read = new Scanner(System.in);
     private Random generate = new Random();
 
@@ -126,13 +126,13 @@ class NationalIDSystem implements Forms {
         String middleName = getString("Enter Middle Name (Gitnang Pangalan): ");
         String lastName = getString("Enter Last Name (Apelyido): ");
 
-        String gender = getValidatedGender();
+        String gender = getValidatedGender().toUpperCase();
         String birthDate = getValidatedBirthDate();
         String birthCountry = getString("Enter Birth Country: ");
         String birthProvince = getString("Enter Birth Province: ");
         String birthPlace = getString("Enter Birth City/Municipality: ");
         String maritalStatus = getString("Enter Marital Status: ");
-        String bloodType = getValidatedBloodType();
+        String bloodType = getValidatedBloodType().toUpperCase();
 
         // Address
         System.out.println("Please fill out your address");
@@ -153,8 +153,8 @@ class NationalIDSystem implements Forms {
         Address add = new Address(); // adds address
         add.setAddress(address, barangay, place, province, country, zipCode, mobileNumber, email);
 
-        personalInfo.displayInfo(); // display the info
-        add.displayInfo(); // display the address
+        // personalInfo.displayInfo(); // display the info
+        // add.displayInfo(); // display the address
 
         String confirmation = getString("Press Y to confirm submission or Press N to cancel\n");
 
@@ -164,6 +164,7 @@ class NationalIDSystem implements Forms {
             database.put(nationalID, new UsersRecord(personalInfo, add));
             System.out.println("Successfully registered. Thank you for using our System."
                     + "\nYour ID number is " + nationalID);
+
             saveInfo();
         } else if (confirmation.equalsIgnoreCase("N")) {
             System.out.println("Successfully cancelled. Thank you for using our system.");
@@ -175,8 +176,21 @@ class NationalIDSystem implements Forms {
 
     // this method will save the information in file as database
     private void saveInfo() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Database.txt"))) {
-            writer.write("Hello, Successfully save to database");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Database.txt", true))) {
+            for (Map.Entry<Integer, UsersRecord> e : database.entrySet()) {
+                int id = e.getKey();
+                UsersRecord record = e.getValue();
+                PersonalInfo info = record.getInfo();
+
+                // test
+                writer.write("| ");
+                writer.write(info.getLastName() + ", " + info.getFirstName() + ", " + info.getMiddleName() + ", "
+                        + info.getDateOfBirth() + ", " + info.getBloodType());
+                writer.write("|");
+                writer.close();
+
+            }
+
         } catch (IOException e) {
             System.out.println("ERROR");
         }

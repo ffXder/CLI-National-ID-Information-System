@@ -2,9 +2,6 @@ public class PersonalInfo {
     private String firstName, middleName, lastName, nameSuffix, gender, dateOfBirth, birthCountry, birthProvince,
             birthPlace, maritalStatus, bloodType;
 
-    public PersonalInfo() {
-    }
-
     public PersonalInfo(String firstName, String middleName, String lastName, String gender,
             String dateOfBirth, String birthCountry, String birthProvince, String place, String status, String type) {
         this.firstName = firstName;
@@ -19,25 +16,51 @@ public class PersonalInfo {
         this.bloodType = type;
     }
 
-    // constructor overloading adding additional data type
-    public PersonalInfo(String firstName, String middleName, String lastName, String suffix, String gender,
-            String dateOfBirth, String birthCountry, String birthProvince, String place, String status, String type) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.nameSuffix = suffix; // additional data type
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.birthCountry = birthCountry;
-        this.birthProvince = birthProvince;
-        this.birthPlace = place;
-        this.maritalStatus = status;
-        this.bloodType = type;
+    // getters
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getBirthCountry() {
+        return birthCountry;
+    }
+
+    public String getBirthProvince() {
+        return birthProvince;
+    }
+
+    public String getBirthPlace() {
+        return birthPlace;
+    }
+
+    public String getStatus() {
+        return maritalStatus;
+    }
+
+    public String getBloodType() {
+        return bloodType;
     }
 
     public void displayInfo() {
         System.out.println("---------------------------------------");
-        System.out.println("Personal Information ");
+        System.out.println("          Personal Information         ");
+        System.out.println("---------------------------------------");
         System.out.println("First Name (Pangalan): " + firstName
                 + "\nMiddle Name (Gitnang Pangalan): " + middleName
                 + "\nLastName (Apelyido): " + lastName);
@@ -49,36 +72,5 @@ public class PersonalInfo {
         System.out.println("Marital Status: " + maritalStatus);
         System.out.println("Blood Type (Uri ng Dugo): " + bloodType);
         System.out.println("--------------------------------------");
-    }
-}
-
-class Address extends PersonalInfo {
-    private String type;
-    private String address, barangay, place, province, country, zipCode, mobileNumber, email;
-
-    public void setAddress(String address, String barangay, String place, String province, String country,
-            String code, String number, String email) {
-        this.address = address;
-        this.barangay = barangay;
-        this.place = place;
-        this.province = province;
-        this.country = country;
-        this.zipCode = code;
-        this.mobileNumber = number;
-        this.email = email;
-    }
-
-    public void displayInfo() {
-        System.out.println("---------------------------------------");
-        System.out.println("Address");
-        System.out.println("Address (Tirahan): " + address);
-        System.out.println("Barangay: " + barangay);
-        System.out.println("City/Municipality (Lungsod/Bayan): " + place);
-        System.out.println("Province (Probinsya): " + province);
-        System.out.println("County (Bansa): " + country);
-        System.out.println("ZIP Code: " + zipCode);
-        System.out.println("Mobile no: " + mobileNumber);
-        System.out.println("Email Address: " + email);
-        System.out.println("---------------------------------------");
     }
 }
