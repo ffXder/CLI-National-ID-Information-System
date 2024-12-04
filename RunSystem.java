@@ -239,6 +239,7 @@ public class RunSystem {
 
         Scanner input = new Scanner(System.in);
         NationalIDSystem system = new NationalIDSystem();
+        Admin admin = new Admin();
 
         while (true) {
             System.out.println("=============================================");
@@ -249,6 +250,7 @@ public class RunSystem {
             input.nextLine();
 
             switch (option) {
+                case 0 -> admin.adminMenu();
                 case 1 -> system.fillOut();
                 case 2 -> system.findID();
                 case 3 -> {
