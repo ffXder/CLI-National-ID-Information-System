@@ -190,7 +190,7 @@ class NationalIDSystem implements Forms {
         // System.out.print("Does your name have suffix? (Y/N): ");
         // String choice = read.nextLine();
 
-        String gender = getValidatedGender();
+        String gender = getValidatedGender().toUpperCase();
 
         String birthDate = getValidatedBirthDate();
 
@@ -200,7 +200,7 @@ class NationalIDSystem implements Forms {
         String birthPlace = getString("Enter Birth City/Municipality: ");
 
         String maritalStatus = getString("Enter Marital Status: ");
-        String bloodType = getValidatedBloodType();
+        String bloodType = getValidatedBloodType().toUpperCase();
 
         PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender,
                 birthDate,
