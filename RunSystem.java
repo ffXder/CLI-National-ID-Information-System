@@ -14,31 +14,6 @@ interface Forms {
     public void retrieveInfo(int id);
 }
 
-class UsersRecord {
-    private PersonalInfo personalInfo;
-    private Address address;
-
-    // using this class to contain both address and personalinfo
-    public UsersRecord(PersonalInfo info, Address add) {
-        this.personalInfo = info;
-        this.address = add;
-    }
-
-    // getters
-    public PersonalInfo getInfo() {
-        return personalInfo;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void displayInfo() {
-        personalInfo.displayInfo();
-        address.displayInfo();
-    }
-}
-
 class NationalIDSystem implements Forms {
     private Map<Integer, UsersRecord> database = new HashMap<>(); // hashmap to store data with key and value
     private Scanner read = new Scanner(System.in);
@@ -158,7 +133,7 @@ class NationalIDSystem implements Forms {
 
         String confirmation = getString("Press Y to confirm submission or Press N to cancel\n");
 
-        // adds confirmation before submitting data
+        // confirmation before submitting data
         if (confirmation.equalsIgnoreCase("Y")) {
             int nationalID = generate.nextInt(100) + 50; // genarate id using random numbers
             database.put(nationalID, new UsersRecord(personalInfo, add));

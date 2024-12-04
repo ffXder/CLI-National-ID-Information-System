@@ -11,7 +11,7 @@ public class Admin {
         String inputUsername = input.nextLine();
         System.out.print("Enter password: ");
         String inputPassword = input.nextLine();
-        
+
         return inputUsername.equals(username) && inputPassword.equals(password);
 
     }
