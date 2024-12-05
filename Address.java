@@ -14,6 +14,40 @@ public class Address {
         this.email = email;
     }
 
+    // getters
+    public String getAddress() {
+        return address;
+    }
+
+    public String getBarangay() {
+        return barangay;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public String getMobileNum() {
+        return mobileNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    // display
     public void displayInfo() {
         System.out.println("---------------------------------------");
         System.out.println("                Address                ");

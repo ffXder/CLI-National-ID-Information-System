@@ -57,6 +57,7 @@ public class PersonalInfo {
         return bloodType;
     }
 
+    // display
     public void displayInfo() {
         System.out.println("---------------------------------------");
         System.out.println("          Personal Information         ");
