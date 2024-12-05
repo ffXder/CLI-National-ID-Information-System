@@ -69,6 +69,18 @@ class NationalIDSystem implements Forms {
         }
     }
 
+    private String validateStatus() {
+        while (true) {
+            String maritalStatus = getString("Enter Marital Status: ");
+
+            if (maritalStatus.matches("[S|s]ingle|[M|m]aried|[W|w]idowed")) {
+                return maritalStatus;
+            } else {
+                System.out.println("Invalid! Please try again");
+            }
+        }
+    }
+
     // this method will validate the blood type inputted by users
     private String getValidatedBloodType() {
         while (true) {
@@ -93,6 +105,11 @@ class NationalIDSystem implements Forms {
      * }
      */
 
+    private int generateID() {
+        return generate.nextInt(100) + 50;
+
+    }
+
     public void fillOut() {
 
         // Display
@@ -106,7 +123,7 @@ class NationalIDSystem implements Forms {
         String birthCountry = getString("Enter Birth Country: ");
         String birthProvince = getString("Enter Birth Province: ");
         String birthPlace = getString("Enter Birth City/Municipality: ");
-        String maritalStatus = getString("Enter Marital Status: ");
+        String maritalStatus = validateStatus();
         String bloodType = getValidatedBloodType().toUpperCase();
 
         // Address
@@ -135,7 +152,7 @@ class NationalIDSystem implements Forms {
 
         // confirmation before submitting data
         if (confirmation.equalsIgnoreCase("Y")) {
-            int nationalID = generate.nextInt(100) + 50; // genarate id using random numbers
+            int nationalID = generateID(); // genarate id using random numbers
             database.put(nationalID, new UsersRecord(personalInfo, add));
             System.out.println("Successfully registered. Thank you for using our System."
                     + "\nYour ID number is " + nationalID);
@@ -149,7 +166,8 @@ class NationalIDSystem implements Forms {
 
     }
 
-    // this method will save the information in file as database
+    // this method will save the information in file as database using
+    // BufferedWriter
     private void saveInfo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Database.txt", true))) {
             for (Map.Entry<Integer, UsersRecord> e : database.entrySet()) {
@@ -158,10 +176,10 @@ class NationalIDSystem implements Forms {
                 PersonalInfo info = record.getInfo();
 
                 // test
-                writer.write("| " + id + " ");
+                writer.write("\n| " + id + ", ");
                 writer.write(info.getLastName() + ", " + info.getFirstName() + ", " + info.getMiddleName() + ", "
                         + info.getDateOfBirth() + ", " + info.getBloodType());
-                writer.write("|\n");
+                writer.write("|");
                 writer.close();
 
             }
@@ -172,6 +190,7 @@ class NationalIDSystem implements Forms {
 
     }
 
+    // load the info from file using BufferedReader
     private void loadInfo() {
         try (BufferedReader reader = new BufferedReader(new FileReader("Database.txt"))) {
             String line;
