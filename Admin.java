@@ -47,7 +47,10 @@ public class Admin {
                             return;
                         }
                     }
-                    case 5 -> System.exit(0);
+                    case 5 -> {
+                        System.out.println("Exiting Program...");
+                        System.exit(0);
+                    }
                     default -> System.out.println("Invalid Input");
 
                 }
