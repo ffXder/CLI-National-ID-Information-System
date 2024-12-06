@@ -73,7 +73,7 @@ class NationalIDSystem implements Forms {
         while (true) {
             String maritalStatus = getString("Enter Marital Status: ");
 
-            if (maritalStatus.matches("[S|s]ingle|[M|m]aried|[W|w]idowed")) {
+            if (maritalStatus.matches("[S|s]ingle|[M|m]arried|[W|w]idowed")) {
                 return maritalStatus;
             } else {
                 System.out.println("Invalid! Please try again");
@@ -176,6 +176,7 @@ class NationalIDSystem implements Forms {
                 PersonalInfo info = record.getInfo();
                 Address address = record.getAddress();
 
+                // 32
                 writer.write(id + " | " + info.getLastName() + " | " + info.getFirstName() + " | "
                         + info.getMiddleName() + " | " + info.getGender() + " | "
                         + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | " + info.getBirthProvince()
@@ -193,15 +194,23 @@ class NationalIDSystem implements Forms {
     }
 
     // load the info from file using BufferedReader
-    private void loadInfo() {
+    private void loadInfo(int searchID) {
         try (BufferedReader reader = new BufferedReader(new FileReader("Database.txt"))) {
             String line;
-            boolean found;
+            boolean found = false;
 
             while ((line = reader.readLine()) != null) {
                 String delimiter[] = line.split("\\|");
-                if (delimiter.length == 32) {
+                int id = Integer.parseInt(delimiter[0].trim());
+                if (id == searchID) {
+                    System.out.println(
+                            "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Zip Code | Mobile No. | Email");
                     System.out.println(line);
+                    break;
+                }
+
+                if (!found) {
+                    System.out.println("ID is not found");
                 }
             }
 
@@ -212,11 +221,12 @@ class NationalIDSystem implements Forms {
 
     // this method will retrieve the information
     public void retrieveInfo(int id) {
+        loadInfo(id);
         if (database.containsKey(id)) {
             UsersRecord record = database.get(id);
             System.out.println("ID number: " + id);
             record.displayInfo();
-            loadInfo(); // find id in database
+            // loadInfo(id); // find id in database
         } else {
             System.out.println("The ID Number " + id + " is not found");
         }
