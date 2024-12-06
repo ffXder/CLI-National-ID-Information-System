@@ -1,3 +1,1 @@
-| 65, Dimagiba, Mary, Dimaano, 2006/12/23, AB+|
-| 134, Dela Cruz, Juan, Martinez, 2000/12/30, A-|
-| 54, Dela Cruz, Juan, Romano, 2000/10/12, A-|
+95 | Rentino | Kurt | Daniel | MALE | 2005/05/18 | Philippines | Rizal | Single | AB+ | Aurora Shell | San Isidro | Angono | Rizal | 1940 | 023939229 | kart@gmail.com101 | Dela Cruz | Juan | Garcia | MALE | 1999/12/11 | Philipines | Rizal | Single | A+ | 2 blk D | Kalayaan | Angono | Rizal | 1940 | 092332932 | juan@gmail.com

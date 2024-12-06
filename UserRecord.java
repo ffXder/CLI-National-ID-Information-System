@@ -21,4 +21,5 @@ class UsersRecord {
         personalInfo.displayInfo();
         address.displayInfo();
     }
+
 }

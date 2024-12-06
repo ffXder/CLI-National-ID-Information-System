@@ -174,15 +174,17 @@ class NationalIDSystem implements Forms {
                 int id = e.getKey();
                 UsersRecord record = e.getValue();
                 PersonalInfo info = record.getInfo();
+                Address address = record.getAddress();
 
-                // test
-                writer.write("\n| " + id + ", ");
-                writer.write(info.getLastName() + ", " + info.getFirstName() + ", " + info.getMiddleName() + ", "
-                        + info.getDateOfBirth() + ", " + info.getBloodType());
-                writer.write("|");
-                writer.close();
-
+                writer.write(id + " | " + info.getLastName() + " | " + info.getFirstName() + " | "
+                        + info.getMiddleName() + " | " + info.getGender() + " | "
+                        + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | " + info.getBirthProvince()
+                        + " | " + info.getStatus() + " | " + info.getBloodType() + " | " + address.getAddress() + " | "
+                        + address.getBarangay() + " | " + address.getPlace() + " | " + address.getProvince() + " | "
+                        + address.getZipCode() + " | " + address.getMobileNum() + " | " + address.getEmail());
+                writer.newLine();
             }
+            writer.close();
 
         } catch (IOException e) {
             System.out.println("ERROR");
@@ -194,9 +196,15 @@ class NationalIDSystem implements Forms {
     private void loadInfo() {
         try (BufferedReader reader = new BufferedReader(new FileReader("Database.txt"))) {
             String line;
+            boolean found;
+
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                String delimiter[] = line.split("\\|");
+                if (delimiter.length == 32) {
+                    System.out.println(line);
+                }
             }
+
         } catch (IOException e) {
             System.out.println("ERROR");
         }
@@ -204,12 +212,11 @@ class NationalIDSystem implements Forms {
 
     // this method will retrieve the information
     public void retrieveInfo(int id) {
-
         if (database.containsKey(id)) {
             UsersRecord record = database.get(id);
             System.out.println("ID number: " + id);
             record.displayInfo();
-            loadInfo();
+            loadInfo(); // find id in database
         } else {
             System.out.println("The ID Number " + id + " is not found");
         }
