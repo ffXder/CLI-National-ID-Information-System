@@ -5,6 +5,7 @@ public class Admin {
     private final String username = "admin";
     private final String password = "admin123";
     private Scanner input = new Scanner(System.in);
+    private NationalIDSystem system = new NationalIDSystem();
 
     private boolean authenticateAdmin() {
         System.out.print("Enter username: ");
@@ -34,8 +35,7 @@ public class Admin {
                     }
                     case 2 -> {
                     }
-                    case 3 -> {
-                    }
+                    case 3 -> system.checkRecords();
                     case 4 -> {
                         input.nextLine();
                         System.out.println("Are you sure you want to quit? (Y/N)");
