@@ -224,7 +224,31 @@ public class NationalIDSystem implements Forms {
         }
     }
 
-    // this method will retrieve the information
+    // for admin methods
+    public void editRecord() {
+
+    }
+
+    public void deleteRecord() {
+
+    }
+
+    public void checkRecords() {
+        try (BufferedReader recordReader = new BufferedReader(new FileReader("Database.txt"))) {
+            String line;
+            System.out.println("---------------------------");
+            System.out.println("Records");
+            System.out.println("---------------------------");
+            System.out.println(
+                    "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Zip Code | Mobile No. | Email");
+            while ((line = recordReader.readLine()) != null) {
+                System.out.println(line);
+            }
+            System.out.println("---------------------------");
+        } catch (IOException e) {
+            System.out.println("ERROR" + e.getMessage());
+        }
+    }
     /*
      * public void retrieveInfo(int id) {
      * loadInfo(id);

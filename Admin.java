@@ -27,7 +27,8 @@ public class Admin {
                 System.out.println("========================");
                 System.out.println("|      Admin Menu      |");
                 System.out.println("========================");
-                System.out.println("1 - Edit Record\n2 - Delete Record\n3 - Check Record\n4 - Exit");
+                System.out
+                        .println("1 - Edit Record\n2 - Delete Record\n3 - Check Record\n4 - Log Out\n5 - Exit Program");
                 int choice = input.nextInt();
 
                 switch (choice) {
@@ -46,6 +47,7 @@ public class Admin {
                             return;
                         }
                     }
+                    case 5 -> System.exit(0);
                     default -> System.out.println("Invalid Input");
 
                 }

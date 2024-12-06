@@ -18,7 +18,7 @@ public class RunSystem {
                 input.nextLine();
 
                 switch (option) {
-                    case 0 -> admin.adminMenu();
+                    case 0 -> admin.adminMenu(); // admin menu
                     case 1 -> system.fillOut();
                     case 2 -> system.findID();
                     case 3 -> {
