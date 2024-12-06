@@ -1,5 +1,5 @@
 public class PersonalInfo {
-    private String firstName, middleName, lastName, nameSuffix, gender, dateOfBirth, birthCountry, birthProvince,
+    private String firstName, middleName, lastName, gender, dateOfBirth, birthCountry, birthProvince,
             birthPlace, maritalStatus, bloodType;
 
     public PersonalInfo(String firstName, String middleName, String lastName, String gender,
