@@ -1,8 +1,7 @@
 public class Address {
-    private String type;
     private String address, barangay, place, province, country, zipCode, mobileNumber, email;
 
-    public void setAddress(String address, String barangay, String place, String province, String country,
+    public Address(String address, String barangay, String place, String province, String country,
             String code, String number, String email) {
         this.address = address;
         this.barangay = barangay;

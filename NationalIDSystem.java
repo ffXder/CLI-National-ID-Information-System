@@ -146,8 +146,8 @@ public class NationalIDSystem implements Forms {
                 birthCountry,
                 birthProvince, birthPlace, maritalStatus, bloodType); // adds info
 
-        Address add = new Address(); // adds address
-        add.setAddress(address, barangay, place, province, country, zipCode, mobileNumber, email);
+        Address add = new Address(address, barangay, place, province, country, zipCode, mobileNumber, email); // adds
+                                                                                                              // address
 
         // personalInfo.displayInfo(); // display the info
         // add.displayInfo(); // display the address
