@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -16,6 +17,7 @@ interface Forms {
 
 public class NationalIDSystem implements Forms {
     private Map<Integer, UsersRecord> database = new HashMap<>(); // hashmap to store data with key and value
+    private ArrayList<UsersRecord> data = new ArrayList<>();
     private Scanner read = new Scanner(System.in);
     private Random generate = new Random();
 
@@ -149,6 +151,9 @@ public class NationalIDSystem implements Forms {
         Address add = new Address(address, barangay, place, province, country, zipCode, mobileNumber, email); // adds
                                                                                                               // address
 
+        UsersRecord record = new UsersRecord(personalInfo, add);
+        data.add(record); // adds into arraylist
+
         // personalInfo.displayInfo(); // display the info
         // add.displayInfo(); // display the address
 
@@ -156,11 +161,8 @@ public class NationalIDSystem implements Forms {
 
         // confirmation before submitting data
         if (confirmation.equalsIgnoreCase("Y")) {
-            int nationalID = generateID(); // genarate id using random numbers
-            database.put(nationalID, new UsersRecord(personalInfo, add));
             System.out.println("Successfully registered. Thank you for using our System."
-                    + "\nYour ID number is " + nationalID);
-
+                    + "\nYour ID number is " + record.getGeneratedID());
             saveInfo();
         } else if (confirmation.equalsIgnoreCase("N")) {
             System.out.println("Successfully cancelled. Thank you for using our system.");
@@ -174,17 +176,19 @@ public class NationalIDSystem implements Forms {
     // BufferedWriter
     private void saveInfo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Database.txt", true))) {
-            for (Map.Entry<Integer, UsersRecord> e : database.entrySet()) {
-                int id = e.getKey();
-                UsersRecord record = e.getValue();
+            for (UsersRecord record : data) {
                 PersonalInfo info = record.getInfo();
                 Address address = record.getAddress();
 
-                // 32
-                writer.write(id + " | " + info.getLastName() + " | " + info.getFirstName() + " | "
+                // 32 length
+                writer.write(record.convertID() + " | " + info.getLastName() + " | " + info.getFirstName()
+                        + " | "
                         + info.getMiddleName() + " | " + info.getGender() + " | "
-                        + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | " + info.getBirthProvince()
-                        + " | " + info.getStatus() + " | " + info.getBloodType() + " | " + address.getAddress() + " | "
+                        + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | "
+                        + info.getBirthProvince()
+                        + " | " + info.getStatus() + " | " + info.getBloodType() + " | "
+                        + address.getAddress()
+                        + " | "
                         + address.getBarangay() + " | " + address.getPlace() + " | " + address.getProvince() + " | "
                         + address.getZipCode() + " | " + address.getMobileNum() + " | " + address.getEmail());
                 writer.newLine();
@@ -204,8 +208,8 @@ public class NationalIDSystem implements Forms {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                String delimiter[] = line.split("\\|");
-                int id = Integer.parseInt(delimiter[0].trim());
+                String delimiter[] = line.split("\\|"); // splits the line
+                int id = Integer.parseInt(delimiter[0].trim()); // finds the id using delimiter
                 if (id == searchID) {
                     System.out.println(
                             "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country |  Birth Province | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Zip Code | Mobile No. | Email");
@@ -224,14 +228,104 @@ public class NationalIDSystem implements Forms {
         }
     }
 
+    public void findID() {
+        try {
+            System.out.print("Enter national ID: ");
+            int ID = read.nextInt();
+            read.nextLine();
+            loadInfo(ID);
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter your Number ID");
+            read.nextLine();
+        }
+    }
+
+    public void viewRequirements() {
+        System.out.println("---------------------------------------------------------------------------------");
+        System.out.println("|     The registrant is encouraged to bring any of the following documents:     |");
+        System.out.println("---------------------------------------------------------------------------------");
+        System.out.println(
+                " - PSA-issued Certificate of Live Birth and one (1) government-issued identification\n   document which bears a full name, front-facing photograph, and signature or thumb mark;");
+        System.out.println(" - Philippine Passport or ePassport issued by the Department of Foreign Affairs (DFA);");
+        System.out.println(
+                " - Unified Multi-purpose ldentification (UMID) Card issued by \n   the Government Service lnsurance System (GSIS) or Social Security Systen (SSS); or");
+        System.out.println(
+                " - Student's License Permit or Non- Professional/Professional Driver's License issued by the LTO.");
+    }
+
     // for admin methods
     public void editRecord() {
 
     }
 
+    // this method is used to delete a specific record in database file
     public void deleteRecord() {
+        boolean found = false;
+        File inputFile = new File("Database.txt");
+        File tempFile = new File("TempDatabase.txt");
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            System.out.print("Enter national ID: ");
+            String findID = read.nextLine().trim(); // Ensure the user input is trimmed of extra spaces
+
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                String[] delimiter = currentLine.split("\\|"); // Split by pipe
+                String currentID = delimiter[0].trim(); // Extract the ID from the first column
+
+                if (currentID.equals(findID)) {
+                    found = true; // Record found, skip writing this line
+                    continue;
+                }
+
+                writer.write(currentLine); // Write the line to the temp file
+                writer.newLine();
+            }
+
+            if (!found) {
+                System.out.println("ID NOT FOUND");
+            } else {
+                // If record is found, replace the original file with the temp file
+                if (inputFile.delete()) {
+                    if (!tempFile.renameTo(inputFile)) {
+                        System.out.println("Could not rename the temporary file to the original file.");
+                    } else {
+                        System.out.println("Successfully removed the record.");
+                    }
+                } else {
+                    System.out.println("Could not delete the original file.");
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
+
+    // private void updateDatabaseFile() {
+    // try (BufferedWriter writer = new BufferedWriter(new
+    // FileWriter("Database.txt"))) {
+    // for (UsersRecord record : data) {
+    // PersonalInfo info = record.getInfo();
+    // Address address = record.getAddress();
+
+    // writer.write(record.getGeneratedID() + " | " + info.getLastName() + " | " +
+    // info.getFirstName() + " | "
+    // + info.getMiddleName() + " | " + info.getGender() + " | "
+    // + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | "
+    // + info.getBirthProvince() + " | " + info.getStatus() + " | "
+    // + info.getBloodType() + " | " + address.getAddress() + " | "
+    // + address.getBarangay() + " | " + address.getPlace() + " | "
+    // + address.getProvince() + " | " + address.getZipCode() + " | "
+    // + address.getMobileNum() + " | " + address.getEmail());
+    // writer.newLine();
+    // }
+    // } catch (IOException e) {
+    // System.out.println("Error updating the database file: " + e.getMessage());
+    // }
+    // }
 
     public void checkRecords() {
         try (BufferedReader recordReader = new BufferedReader(new FileReader("Database.txt"))) {
@@ -263,15 +357,4 @@ public class NationalIDSystem implements Forms {
      * }
      */
 
-    public void findID() {
-        try {
-            System.out.print("Enter national ID: ");
-            int ID = read.nextInt();
-            read.nextLine();
-            loadInfo(ID);
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter your Number ID");
-            read.nextLine();
-        }
-    }
 }
