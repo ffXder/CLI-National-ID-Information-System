@@ -11,7 +11,7 @@ public class RunSystem {
         try {
             while (true) {
                 System.out.println("=============================================");
-                System.out.println("         Welcome to National ID System       ");
+                System.out.println("       National ID  Information System       ");
                 System.out.println("=============================================");
                 System.out.println("1 - Register\n2 - Find ID\n3 - Exit");
                 int option = input.nextInt();
@@ -30,7 +30,7 @@ public class RunSystem {
                             input.close();
                             System.exit(0);
                         } else if (confirm.equalsIgnoreCase("N")) {
-                            return;
+                            continue;
                         } else {
                             System.out.println("Invalid input your choices are (Y/N)");
                         }
