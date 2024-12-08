@@ -1,8 +1,6 @@
 import java.util.Scanner;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.time.format.DateTimeFormatter;
 import java.time.Period;
@@ -16,8 +14,7 @@ interface Forms {
 }
 
 public class NationalIDSystem implements Forms {
-    private Map<Integer, UsersRecord> database = new HashMap<>(); // hashmap to store data with key and value
-    private ArrayList<UsersRecord> data = new ArrayList<>();
+    private ArrayList<UsersRecord> database = new ArrayList<>(); // stores the data
     private Scanner read = new Scanner(System.in);
     private Random generate = new Random();
 
@@ -152,7 +149,7 @@ public class NationalIDSystem implements Forms {
                                                                                                               // address
 
         UsersRecord record = new UsersRecord(personalInfo, add);
-        data.add(record); // adds into arraylist
+        database.add(record); // adds into arraylist
 
         // personalInfo.displayInfo(); // display the info
         // add.displayInfo(); // display the address
@@ -176,7 +173,7 @@ public class NationalIDSystem implements Forms {
     // BufferedWriter
     private void saveInfo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Database.txt", true))) {
-            for (UsersRecord record : data) {
+            for (UsersRecord record : database) {
                 PersonalInfo info = record.getInfo();
                 Address address = record.getAddress();
 
@@ -260,72 +257,49 @@ public class NationalIDSystem implements Forms {
 
     // this method is used to delete a specific record in database file
     public void deleteRecord() {
+        File dataFile = new File("Database.txt"); // data file
+        File tempDataFile = new File("tempdatabase.txt"); // temp file
         boolean found = false;
-        File inputFile = new File("Database.txt");
-        File tempFile = new File("TempDatabase.txt");
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-                BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
-
+        try (BufferedReader reader = new BufferedReader(new FileReader(dataFile));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(tempDataFile))) {
             System.out.print("Enter national ID: ");
-            String findID = read.nextLine().trim(); // Ensure the user input is trimmed of extra spaces
+            String id = read.nextLine();
 
             String currentLine;
             while ((currentLine = reader.readLine()) != null) {
-                String[] delimiter = currentLine.split("\\|"); // Split by pipe
-                String currentID = delimiter[0].trim(); // Extract the ID from the first column
+                String delimiter[] = currentLine.split("\\|"); // delimiter separates using split
+                String searchID = delimiter[0].trim();
 
-                if (currentID.equals(findID)) {
-                    found = true; // Record found, skip writing this line
+                if (searchID.contains(id)) { // database contains the ID to delete
+                    found = true;
                     continue;
                 }
 
-                writer.write(currentLine); // Write the line to the temp file
+                writer.write(currentLine); // write all the current to temp file
                 writer.newLine();
-            }
 
-            if (!found) {
-                System.out.println("ID NOT FOUND");
-            } else {
-                // If record is found, replace the original file with the temp file
-                if (inputFile.delete()) {
-                    if (!tempFile.renameTo(inputFile)) {
-                        System.out.println("Could not rename the temporary file to the original file.");
+            }
+            if (found) {
+                reader.close(); // closes the reader
+                writer.close(); // closes the writer to avoid issues when deleting file
+                if (dataFile.delete()) { // delete database.txt
+                    if (tempDataFile.renameTo(dataFile)) { // then renames the tempDataFile to "Database.txt"
+                        System.out.println("Successfully removed ID: " + id);
                     } else {
-                        System.out.println("Successfully removed the record.");
+                        System.out.println("Failed to rename");
                     }
                 } else {
-                    System.out.println("Could not delete the original file.");
+                    System.out.println("Failed to delete");
                 }
-            }
+            } else {
+                System.out.println("ID NOT FOUND");
 
+            }
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
-
-    // private void updateDatabaseFile() {
-    // try (BufferedWriter writer = new BufferedWriter(new
-    // FileWriter("Database.txt"))) {
-    // for (UsersRecord record : data) {
-    // PersonalInfo info = record.getInfo();
-    // Address address = record.getAddress();
-
-    // writer.write(record.getGeneratedID() + " | " + info.getLastName() + " | " +
-    // info.getFirstName() + " | "
-    // + info.getMiddleName() + " | " + info.getGender() + " | "
-    // + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | "
-    // + info.getBirthProvince() + " | " + info.getStatus() + " | "
-    // + info.getBloodType() + " | " + address.getAddress() + " | "
-    // + address.getBarangay() + " | " + address.getPlace() + " | "
-    // + address.getProvince() + " | " + address.getZipCode() + " | "
-    // + address.getMobileNum() + " | " + address.getEmail());
-    // writer.newLine();
-    // }
-    // } catch (IOException e) {
-    // System.out.println("Error updating the database file: " + e.getMessage());
-    // }
-    // }
 
     public void checkRecords() {
         try (BufferedReader recordReader = new BufferedReader(new FileReader("Database.txt"))) {
