@@ -24,7 +24,7 @@ public class Admin {
         System.out.print("Enter password: ");
         String inputPassword = input.nextLine();
 
-        utils.sleep(3);
+        // utils.loading(2);
         return adminAcc.containsKey(inputUsername) && adminAcc.containsValue(inputPassword);
 
     }
@@ -36,9 +36,11 @@ public class Admin {
             System.out.println("Login Unsuccessful. Please check your password or username. ");
             return;
         }
-        try {
-            utils.clearConsole(); // clears console after log in
-            while (true) {
+
+        utils.clearConsole(); // clears console after log in
+        while (true) {
+            try {
+
                 System.out.println("========================");
                 System.out.println("|      Admin Menu      |");
                 System.out.println("========================");
@@ -49,8 +51,8 @@ public class Admin {
                 switch (choice) {
                     case 1 -> {
                     }
-                    case 2 -> {
-                    }
+                    case 2 -> system.deleteRecord();
+
                     case 3 -> system.checkRecords();
                     case 4 -> { // log out
                         input.nextLine();
@@ -74,13 +76,13 @@ public class Admin {
                             System.exit(0);
                         }
                     }
-                    default -> System.out.println("Invalid Input");
+                    default -> System.out.println("Please select a number based on the selections");
 
                 }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number. ");
+                input.nextLine(); // avoids stopping the program and proceeds the program
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a number. ");
-            input.nextLine();
         }
 
     }
