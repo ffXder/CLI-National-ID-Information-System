@@ -1,6 +1,5 @@
 import java.io.IOException;
 
-//utils by capyBruh
 public class Utils {
     public void clearConsole() { // for clearing the console
         try {
@@ -20,7 +19,7 @@ public class Utils {
         }
     }
 
-    public void sleep(int seconds) { // loading dots
+    public void loading(int seconds) { // loading dots
         try {
             System.out.print("Logging in ");
             for (int i = 0; i < seconds; i++) {
