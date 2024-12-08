@@ -208,7 +208,7 @@ public class NationalIDSystem implements Forms {
                 int id = Integer.parseInt(delimiter[0].trim());
                 if (id == searchID) {
                     System.out.println(
-                            "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Zip Code | Mobile No. | Email");
+                            "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country |  Birth Province | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Zip Code | Mobile No. | Email");
                     System.out.println(line);
                     found = true;
                     break;
@@ -237,7 +237,7 @@ public class NationalIDSystem implements Forms {
         try (BufferedReader recordReader = new BufferedReader(new FileReader("Database.txt"))) {
             String line;
             System.out.println("---------------------------");
-            System.out.println("Records");
+            System.out.println("|          Records        | ");
             System.out.println("---------------------------");
             System.out.println(
                     "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Zip Code | Mobile No. | Email");
