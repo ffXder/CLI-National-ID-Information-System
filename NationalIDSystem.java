@@ -17,6 +17,7 @@ public class NationalIDSystem implements Forms {
     private ArrayList<UsersRecord> database = new ArrayList<>(); // stores the data
     private Scanner read = new Scanner(System.in);
     private Random generate = new Random();
+    private int generateID = generate.nextInt(1000) + 500; // creates id between 5 to 100
 
     // for prompt
     private String getString(String prompt) {
@@ -142,7 +143,7 @@ public class NationalIDSystem implements Forms {
         // confirmation before submitting data
         if (confirmation.equalsIgnoreCase("Y")) {
             System.out.println("Successfully registered. Thank you for using our System."
-                    + "\nYour ID number is " + record.getGeneratedID());
+                    + "\nYour ID number is " + generateID);
             saveInfo();
         } else if (confirmation.equalsIgnoreCase("N")) {
             System.out.println("Submission Cancelled.");
@@ -152,8 +153,7 @@ public class NationalIDSystem implements Forms {
 
     }
 
-    // this method will save the information in file as database using
-    // BufferedWriter
+    // this method will save the information in file as database
     private void saveInfo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Database.txt", true))) {
             for (UsersRecord record : database) {
@@ -161,7 +161,7 @@ public class NationalIDSystem implements Forms {
                 Address address = record.getAddress();
 
                 // 32 length
-                writer.write(record.convertID() + " | " + info.getLastName() + " | " + info.getFirstName()
+                writer.write(generateID + " | " + info.getLastName() + " | " + info.getFirstName()
                         + " | "
                         + info.getMiddleName() + " | " + info.getGender() + " | "
                         + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | "
@@ -241,12 +241,12 @@ public class NationalIDSystem implements Forms {
     // this method is used to delete a specific record in database file
     public void deleteRecord() {
         File dataFile = new File("Database.txt"); // data file
-        File tempDataFile = new File("tempdatabase.txt"); // temp file
+        File tempDataFile = new File("temp.txt"); // temp file
         boolean found = false;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(dataFile));
                 BufferedWriter writer = new BufferedWriter(new FileWriter(tempDataFile))) {
-            System.out.print("Enter national ID: ");
+            System.out.print("Enter ID that you want to delete : ");
             String id = read.nextLine();
 
             String currentLine;
@@ -302,18 +302,4 @@ public class NationalIDSystem implements Forms {
             System.out.println("ERROR" + e.getMessage());
         }
     }
-    /*
-     * public void retrieveInfo(int id) {
-     * loadInfo(id);
-     * if (database.containsKey(id)) {
-     * UsersRecord record = database.get(id);
-     * System.out.println("ID number: " + id);
-     * record.displayInfo();
-     * // loadInfo(id); // find id in database
-     * } else {
-     * System.out.println("The ID Number " + id + " is not found");
-     * }
-     * }
-     */
-
 }
