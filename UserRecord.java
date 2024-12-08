@@ -31,19 +31,6 @@ class UsersRecord {
         return StringID;
     }
 
-    public void printInfo() {
-        // length 32
-        System.out.println(convertID() + " | " + personalInfo.getLastName() + " | " + personalInfo.getFirstName()
-                + " | "
-                + personalInfo.getMiddleName() + " | " + personalInfo.getGender() + " | "
-                + personalInfo.getDateOfBirth() + " | " + personalInfo.getBirthCountry() + " | "
-                + personalInfo.getBirthProvince()
-                + " | " + personalInfo.getStatus() + " | " + personalInfo.getBloodType() + " | " + address.getAddress()
-                + " | "
-                + address.getBarangay() + " | " + address.getPlace() + " | " + address.getProvince() + " | "
-                + address.getZipCode() + " | " + address.getMobileNum() + " | " + address.getEmail());
-    }
-
     public void displayInfo() {
         personalInfo.displayInfo();
         address.displayInfo();
