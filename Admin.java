@@ -1,28 +1,43 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Admin {
     private final String username = "admin";
     private final String password = "admin123";
     private Scanner input = new Scanner(System.in);
     private NationalIDSystem system = new NationalIDSystem();
+    private Map<String, String> adminAcc = new HashMap<>();
+    private Utils utils = new Utils();
+
+    public Admin() {
+        adminAcc.put(username, password); // add username (key) and password (value) to hashmap
+    }
 
     private boolean authenticateAdmin() {
-        System.out.print("Enter username: ");
+        System.out.println("------------------------");
+        System.out.println("       Admin Login      ");
+        System.out.println("------------------------");
+        System.out.print("Enter admin username: ");
         String inputUsername = input.nextLine();
-        System.out.print("Enter password: ");
+        System.out.print("Enter admin password: ");
         String inputPassword = input.nextLine();
 
-        return inputUsername.equals(username) && inputPassword.equals(password);
+        utils.sleep(3);
+        return adminAcc.containsKey(inputUsername) && adminAcc.containsValue(inputPassword);
 
     }
 
     public void adminMenu() {
+        // authenticate before accessing admin
         if (!authenticateAdmin()) {
+            utils.clearConsole(); // added clear console
             System.out.println("Login Unsuccessful. Please check your password or username. ");
             return;
         }
         try {
+            utils.clearConsole(); // clears console after log in
             while (true) {
                 System.out.println("========================");
                 System.out.println("|      Admin Menu      |");
@@ -37,17 +52,18 @@ public class Admin {
                     case 2 -> {
                     }
                     case 3 -> system.checkRecords();
-                    case 4 -> {
+                    case 4 -> { // log out
                         input.nextLine();
                         System.out.println("Are you sure you want to log out? (Y/N)");
                         String confirm = input.nextLine().trim();
 
                         if (confirm.equalsIgnoreCase("Y")) {
-                            System.out.println("Exiting the Admin Mode.");
+                            System.out.println("Exiting the Admin Mode...");
+                            utils.clearConsole();
                             return;
                         }
                     }
-                    case 5 -> {
+                    case 5 -> { // exit program
                         input.nextLine();
                         System.out.println("Are you sure you want to exit? (Y/N)");
                         String confirm = input.nextLine().trim();
@@ -64,6 +80,7 @@ public class Admin {
             }
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a number. ");
+            input.nextLine();
         }
 
     }

@@ -34,8 +34,7 @@ public class NationalIDSystem implements Forms {
         String gender;
         while (true) {
             gender = getString("Enter Sex (Kasarian): ");
-            if (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female") || gender.equalsIgnoreCase("M")
-                    || gender.equalsIgnoreCase("F")) {
+            if (gender.equalsIgnoreCase("Male") || gender.equalsIgnoreCase("Female")) {
                 return gender;
             } else {
                 System.out.println("Invalid gender. Please enter Male or Female.");
@@ -58,9 +57,10 @@ public class NationalIDSystem implements Forms {
                 }
 
                 Period period = Period.between(date, LocalDate.now());
-                int age = period.getYears();
+                int age = period.getYears(); // compute the birthdata input and current year
 
-                if (age < 0) {
+                // validates if the date for registration is valid
+                if (age < 0 || age > 120) {
                     System.out.println("Please enter a valid date.");
                     continue;
                 }

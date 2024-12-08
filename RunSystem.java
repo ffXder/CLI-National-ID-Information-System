@@ -7,7 +7,7 @@ public class RunSystem {
         Scanner input = new Scanner(System.in);
         NationalIDSystem system = new NationalIDSystem();
         Admin admin = new Admin();
-
+        Utils utils = new Utils();
         try {
             while (true) {
                 System.out.println("=============================================");
@@ -18,15 +18,18 @@ public class RunSystem {
                 input.nextLine();
 
                 switch (option) {
-                    case 0 -> admin.adminMenu(); // admin menu
+                    case 0 -> {
+                        utils.clearConsole();
+                        admin.adminMenu(); // admin menu
+                    }
                     case 1 -> system.fillOut();
                     case 2 -> system.findID();
-                    case 3 -> {
+                    case 3 -> { // exit
                         System.out.println("Are you sure you want to quit? (Y/N)");
                         String confirm = input.nextLine().trim();
 
                         if (confirm.equalsIgnoreCase("Y")) {
-                            System.out.println("Thank you for using our system! Exiting the Program.");
+                            System.out.println("Thank you for using our system! Exiting the Program...");
                             input.close();
                             System.exit(0);
                         } else if (confirm.equalsIgnoreCase("N")) {
