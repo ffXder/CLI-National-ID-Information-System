@@ -20,17 +20,6 @@ class UsersRecord {
         return address;
     }
 
-    public int getGeneratedID() {
-        return generate.nextInt(100) + 1; // creates id between 1 to 100
-
-    }
-
-    public String convertID() { // this method is used for writing in file
-        int id = getGeneratedID();
-        String StringID = Integer.toString(id); // converts id into string
-        return StringID;
-    }
-
     public void displayInfo() {
         personalInfo.displayInfo();
         address.displayInfo();
