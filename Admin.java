@@ -12,7 +12,7 @@ public class Admin {
     private Utils utils = new Utils();
 
     public Admin() {
-        adminAcc.put(username, password); // add username (key) and password (value) to hashmap
+        adminAcc.put(username, password); // add username (key) and password (value) using hashmap
     }
 
     private boolean authenticateAdmin() {
@@ -24,7 +24,7 @@ public class Admin {
         System.out.print("Enter password: ");
         String inputPassword = input.nextLine();
 
-        // utils.loading(2);
+        utils.loading(3);
         return adminAcc.containsKey(inputUsername) && adminAcc.containsValue(inputPassword);
 
     }
@@ -63,6 +63,10 @@ public class Admin {
                             System.out.println("Exiting the Admin Mode...");
                             utils.clearConsole();
                             return;
+                        } else if (confirm.equalsIgnoreCase("N")) {
+                            continue;
+                        } else {
+                            System.out.println("Invalid Input. Press Y to Log out or Press N to Cancel");
                         }
                     }
                     case 5 -> { // exit program
@@ -74,6 +78,10 @@ public class Admin {
                             System.out.println("Exiting Program...");
                             input.close();
                             System.exit(0);
+                        } else if (confirm.equalsIgnoreCase("N")) {
+                            continue;
+                        } else {
+                            System.out.println("Invalid Input. Press Y to Exit or Press N to Cancel");
                         }
                     }
                     default -> System.out.println("Please select a number based on the selections");
