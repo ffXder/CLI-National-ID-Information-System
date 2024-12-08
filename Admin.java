@@ -39,7 +39,7 @@ public class Admin {
                     case 3 -> system.checkRecords();
                     case 4 -> {
                         input.nextLine();
-                        System.out.println("Are you sure you want to quit? (Y/N)");
+                        System.out.println("Are you sure you want to log out? (Y/N)");
                         String confirm = input.nextLine().trim();
 
                         if (confirm.equalsIgnoreCase("Y")) {
@@ -48,8 +48,15 @@ public class Admin {
                         }
                     }
                     case 5 -> {
-                        System.out.println("Exiting Program...");
-                        System.exit(0);
+                        input.nextLine();
+                        System.out.println("Are you sure you want to exit? (Y/N)");
+                        String confirm = input.nextLine().trim();
+
+                        if (confirm.equalsIgnoreCase("Y")) {
+                            System.out.println("Exiting Program...");
+                            input.close();
+                            System.exit(0);
+                        }
                     }
                     default -> System.out.println("Invalid Input");
 
