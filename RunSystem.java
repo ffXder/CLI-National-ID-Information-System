@@ -8,23 +8,26 @@ public class RunSystem {
         NationalIDSystem system = new NationalIDSystem();
         Admin admin = new Admin();
         Utils utils = new Utils();
-        try {
-            while (true) {
+
+        while (true) {
+            try {
+
                 System.out.println("=============================================");
                 System.out.println("       National ID  Information System       ");
                 System.out.println("=============================================");
-                System.out.println("1 - Register\n2 - Find ID\n3 - Exit");
+                System.out.println("1 - Register\n2 - Find ID\n3 - View Requirements\n4 - Exit");
                 int option = input.nextInt();
                 input.nextLine();
 
                 switch (option) {
-                    case 0 -> {
+                    case 0 -> { // admin is hidden in user interface
                         utils.clearConsole();
                         admin.adminMenu(); // admin menu
                     }
                     case 1 -> system.fillOut();
                     case 2 -> system.findID();
-                    case 3 -> { // exit
+                    case 3 -> system.viewRequirements();
+                    case 4 -> { // exit
                         System.out.println("Are you sure you want to quit? (Y/N)");
                         String confirm = input.nextLine().trim();
 
@@ -42,9 +45,11 @@ public class RunSystem {
 
                     default -> System.out.println("Invalid input");
                 }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter an number to select!");
+                input.nextLine(); // new line then continue the loop
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Please enter an number to select!");
         }
 
     }
