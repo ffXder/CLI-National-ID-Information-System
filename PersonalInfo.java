@@ -72,11 +72,6 @@ public class PersonalInfo {
         System.out.println("City/Municipality (Lungsod Ng Kapanganakan): " + birthPlace);
         System.out.println("Marital Status: " + maritalStatus);
         System.out.println("Blood Type (Uri ng Dugo): " + bloodType);
-        System.out.println("--------------------------------------");
-    }
-
-    // add info to file database
-    public void addInfo() {
-        System.out.println("");
+        System.out.println("---------------------------------------");
     }
 }
