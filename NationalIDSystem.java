@@ -60,7 +60,7 @@ public class NationalIDSystem implements Forms {
                 int age = period.getYears(); // compute the birthdata input and current year
 
                 // validates if the date for registration is valid
-                if (age < 0 || age > 120) {
+                if (age < 0 || age > 160) {
                     System.out.println("Please enter a valid date.");
                     continue;
                 }

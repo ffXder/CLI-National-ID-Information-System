@@ -19,9 +19,9 @@ public class Admin {
         System.out.println("------------------------");
         System.out.println("       Admin Login      ");
         System.out.println("------------------------");
-        System.out.print("Enter admin username: ");
+        System.out.print("Enter username: ");
         String inputUsername = input.nextLine();
-        System.out.print("Enter admin password: ");
+        System.out.print("Enter password: ");
         String inputPassword = input.nextLine();
 
         utils.sleep(3);
