@@ -38,7 +38,7 @@ public class RunSystem {
                         } else if (confirm.equalsIgnoreCase("N")) {
                             continue;
                         } else {
-                            System.out.println("Invalid input your choices are (Y/N)");
+                            System.out.println("Invalid Input. Press Y to Exit or Press N to Cancel");
                         }
 
                     }

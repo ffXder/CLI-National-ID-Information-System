@@ -97,22 +97,6 @@ public class NationalIDSystem implements Forms {
 
     }
 
-    /*
-     * private String getSuffix() {
-     * String choice = getString("Does you name have suffix (Y/N): ");
-     * if (choice.equalsIgnoreCase("Y")) {
-     * String suffix = getString("Enter Suffix (e.g Sr.,III): ");
-     * return suffix;
-     * }
-     * 
-     * }
-     */
-
-    private int generateID() {
-        return generate.nextInt(100) + 1;
-
-    }
-
     public void fillOut() {
 
         // Display
@@ -151,8 +135,7 @@ public class NationalIDSystem implements Forms {
         UsersRecord record = new UsersRecord(personalInfo, add);
         database.add(record); // adds into arraylist
 
-        // personalInfo.displayInfo(); // display the info
-        // add.displayInfo(); // display the address
+        // record.displayInfo();
 
         String confirmation = getString("Press Y to confirm submission or Press N to cancel\n");
 
@@ -162,7 +145,7 @@ public class NationalIDSystem implements Forms {
                     + "\nYour ID number is " + record.getGeneratedID());
             saveInfo();
         } else if (confirmation.equalsIgnoreCase("N")) {
-            System.out.println("Successfully cancelled. Thank you for using our system.");
+            System.out.println("Submission Cancelled.");
         } else {
             System.out.println("Invalid input. Please enter Y or N.");
         }
@@ -281,8 +264,10 @@ public class NationalIDSystem implements Forms {
 
             }
             if (found) {
-                reader.close(); // closes the reader
-                writer.close(); // closes the writer to avoid issues when deleting file
+                // closes the reader and writer
+                // this is important to avoid issues when deleting file
+                reader.close();
+                writer.close();
                 if (dataFile.delete()) { // delete database.txt
                     if (tempDataFile.renameTo(dataFile)) { // then renames the tempDataFile to "Database.txt"
                         System.out.println("Successfully removed ID: " + id);
@@ -297,7 +282,7 @@ public class NationalIDSystem implements Forms {
 
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("ERROR");
         }
     }
 
