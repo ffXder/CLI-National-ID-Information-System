@@ -186,6 +186,12 @@ public class NationalIDSystem implements Forms {
 
     }
 
+    public void findID() {
+        System.out.print("Enter national ID: ");
+        String ID = read.nextLine().trim();
+        loadInfo(ID);
+    }
+
     // load the info from file using BufferedReader
     private void loadInfo(String searchID) {
         boolean found = false;
@@ -211,18 +217,6 @@ public class NationalIDSystem implements Forms {
 
         } catch (IOException e) {
             System.out.println("ERROR");
-        }
-    }
-
-    public void findID() {
-        try {
-            System.out.print("Enter national ID: ");
-            String ID = read.nextLine().trim();
-            read.nextLine();
-            loadInfo(ID);
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter your Number ID");
-            read.nextLine();
         }
     }
 
