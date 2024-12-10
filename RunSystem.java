@@ -16,7 +16,8 @@ public class RunSystem {
                 System.out.println("       National ID  Information System       ");
                 System.out.println("=============================================");
                 System.out
-                        .println("1 - Register\n2 - Find ID\n3 - View Requirements\n4 - Located Registration\n5- Exit");
+                        .println(
+                                "1 - Register\n2 - Find ID\n3 - View Requirements\n4 - Located Registration\n5 - Exit");
                 int option = input.nextInt();
                 input.nextLine();
 
