@@ -15,7 +15,8 @@ public class RunSystem {
                 System.out.println("=============================================");
                 System.out.println("       National ID  Information System       ");
                 System.out.println("=============================================");
-                System.out.println("1 - Register\n2 - Find ID\n3 - View Requirements\n4 - Exit");
+                System.out
+                        .println("1 - Register\n2 - Find ID\n3 - View Requirements\n4 - Located Registration\n5- Exit");
                 int option = input.nextInt();
                 input.nextLine();
 
@@ -27,7 +28,8 @@ public class RunSystem {
                     case 1 -> system.fillOut();
                     case 2 -> system.findID();
                     case 3 -> system.viewRequirements();
-                    case 4 -> { // exit
+                    case 4 -> system.locatedRegistration();
+                    case 5 -> { // exit
                         System.out.println("Are you sure you want to quit? (Y/N)");
                         String confirm = input.nextLine().trim();
 
