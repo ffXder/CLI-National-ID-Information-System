@@ -187,14 +187,15 @@ public class NationalIDSystem implements Forms {
     }
 
     // load the info from file using BufferedReader
-    private void loadInfo(int searchID) {
+    private void loadInfo(String searchID) {
         boolean found = false;
+
         try (BufferedReader reader = new BufferedReader(new FileReader("Database.txt"))) {
             String line;
 
             while ((line = reader.readLine()) != null) {
                 String delimiter[] = line.split("\\|"); // splits the line
-                int id = Integer.parseInt(delimiter[0].trim()); // finds the id using delimiter
+                String id = delimiter[0].trim(); // finds the id using delimiter
                 if (id == searchID) {
                     System.out.println(
                             "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country |  Birth Province | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Country | Zip Code | Mobile No. | Email");
@@ -216,7 +217,7 @@ public class NationalIDSystem implements Forms {
     public void findID() {
         try {
             System.out.print("Enter national ID: ");
-            int ID = read.nextInt();
+            String ID = read.nextLine().trim();
             read.nextLine();
             loadInfo(ID);
         } catch (InputMismatchException e) {
