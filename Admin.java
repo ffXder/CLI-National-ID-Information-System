@@ -49,8 +49,7 @@ public class Admin {
                 int choice = input.nextInt();
 
                 switch (choice) {
-                    case 1 -> {
-                    }
+                    case 1 -> system.editRecord();
                     case 2 -> system.deleteRecord();
 
                     case 3 -> system.checkRecords();
