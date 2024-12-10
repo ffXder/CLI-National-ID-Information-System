@@ -1,9 +1,6 @@
-import java.util.Random;
-
 class UsersRecord {
     private PersonalInfo personalInfo;
     private Address address;
-    private Random generate = new Random();
 
     // using this class to contain both address and personalinfo
     public UsersRecord(PersonalInfo info, Address add) {
