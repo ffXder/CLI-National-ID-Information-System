@@ -1,7 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.InputMismatchException;
 import java.time.format.DateTimeFormatter;
 import java.time.Period;
 import java.time.LocalDate;
