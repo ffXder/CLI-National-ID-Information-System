@@ -1,7 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.InputMismatchException;
 import java.time.format.DateTimeFormatter;
 import java.time.Period;
 import java.time.LocalDate;
@@ -148,6 +147,7 @@ public class NationalIDSystem implements Forms {
                     + "\nYour ID number is " + generateID);
             saveInfo();
         } else if (confirmation.equalsIgnoreCase("N")) {
+            utils.clearConsole();
             System.out.println("Submission Cancelled.");
         } else {
             System.out.println("Invalid input. Please enter Y or N.");
@@ -202,7 +202,7 @@ public class NationalIDSystem implements Forms {
             while ((line = reader.readLine()) != null) {
                 String delimiter[] = line.split("\\|"); // splits the line
                 String id = delimiter[0].trim(); // finds the id using delimiter
-                if (id == searchID) {
+                if (id.contains(searchID)) {
                     System.out.println(
                             "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country |  Birth Province | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Country | Zip Code | Mobile No. | Email");
                     System.out.println(line);
@@ -386,6 +386,9 @@ public class NationalIDSystem implements Forms {
                     System.out.println("Failed to delete");
                 }
             } else {
+                writer.close();
+                reader.close();
+                tempDataFile.delete(); // deletes temp if id is not found
                 System.out.println("ID NOT FOUND");
 
             }
