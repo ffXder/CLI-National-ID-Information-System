@@ -22,11 +22,12 @@ public class NationalIDSystem implements Forms {
 
     // for prompt
     private String getString(String prompt) {
-        if (prompt.equalsIgnoreCase("EXIT")) {
-            return prompt;
+        System.out.print(prompt);
+        String input = read.nextLine().trim();
+        if (input.equals("EXIT")) {
+            throw new InputExitException();
         } else {
-            System.out.print(prompt);
-            return read.nextLine().trim();
+            return input;
         }
     }
 
@@ -100,60 +101,63 @@ public class NationalIDSystem implements Forms {
 
     public void fillOut() {
 
-        // Display
-        System.out.println("Please fill out the information needed.");
-        String firstName = getString("Enter First Name (Pangalan): ");
-        String middleName = getString("Enter Middle Name (Gitnang Pangalan): ");
-        String lastName = getString("Enter Last Name (Apelyido): ");
+        try {
+            // Display
+            System.out.println("Please fill out the information needed. If you want to cancel type 'EXIT'. ");
+            String firstName = getString("Enter First Name (Pangalan): ");
+            String middleName = getString("Enter Middle Name (Gitnang Pangalan): ");
+            String lastName = getString("Enter Last Name (Apelyido): ");
 
-        String gender = validateGender().toUpperCase();
-        String birthDate = validateBirthDate();
-        String birthCountry = getString("Enter Birth Country: ");
-        String birthProvince = getString("Enter Birth Province: ");
-        String birthPlace = getString("Enter Birth City/Municipality: ");
-        String maritalStatus = validateStatus();
-        String bloodType = validatedBloodType().toUpperCase();
+            String gender = validateGender().toUpperCase();
+            String birthDate = validateBirthDate();
+            String birthCountry = getString("Enter Birth Country: ");
+            String birthProvince = getString("Enter Birth Province: ");
+            String birthPlace = getString("Enter Birth City/Municipality: ");
+            String maritalStatus = validateStatus();
+            String bloodType = validatedBloodType().toUpperCase();
 
-        // Address
-        System.out.println("------------------------------------------------------");
-        System.out.println("Please fill out your address");
-        String address = getString("Enter Address: ");
-        String barangay = getString("Enter Barangay: ");
-        String place = getString("Enter City/Municipality: ");
-        String province = getString("Enter Province: ");
-        String country = getString("Enter Country: ");
-        String zipCode = getString("Enter Zip Code: ");
-        String mobileNumber = getString("Enter Mobile no.: ");
-        String email = getString("Enter Email: ");
+            // Address
+            System.out.println("------------------------------------------------------");
+            System.out.println("Please fill out your address");
+            String address = getString("Enter Address: ");
+            String barangay = getString("Enter Barangay: ");
+            String place = getString("Enter City/Municipality: ");
+            String province = getString("Enter Province: ");
+            String country = getString("Enter Country: ");
+            String zipCode = getString("Enter Zip Code: ");
+            String mobileNumber = getString("Enter Mobile no.: ");
+            String email = getString("Enter Email: ");
 
-        PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender,
-                birthDate,
-                birthCountry,
-                birthProvince, birthPlace, maritalStatus, bloodType); // adds info
+            PersonalInfo personalInfo = new PersonalInfo(firstName, middleName, lastName, gender,
+                    birthDate,
+                    birthCountry,
+                    birthProvince, birthPlace, maritalStatus, bloodType); // adds info
 
-        Address add = new Address(address, barangay, place, province, country, zipCode, mobileNumber, email); // adds
-                                                                                                              // address
+            Address add = new Address(address, barangay, place, province, country, zipCode, mobileNumber, email); // adds
+                                                                                                                  // address
 
-        UsersRecord record = new UsersRecord(personalInfo, add);
-        database.add(record); // adds into arraylist
+            UsersRecord record = new UsersRecord(personalInfo, add);
+            database.add(record); // adds into arraylist
 
-        utils.clearConsole(); // clears console
-        record.displayInfo(); // then display info's inputted by user
+            utils.clearConsole(); // clears console
+            record.displayInfo(); // then display info's inputted by user
 
-        String confirmation = getString("Press Y to confirm submission or Press N to cancel\n");
+            String confirmation = getString("Press Y to confirm submission or Press N to cancel\n");
 
-        // confirmation before submitting data
-        if (confirmation.equalsIgnoreCase("Y")) {
-            System.out.println("Successfully registered. Thank you for using our System."
-                    + "\nYour ID number is " + generateID);
-            saveInfo();
-        } else if (confirmation.equalsIgnoreCase("N")) {
-            System.out.println("Submission Cancelled.");
-        } else {
-            System.out.println("Invalid input. Please enter Y or N.");
+            // confirmation before submitting data
+            if (confirmation.equalsIgnoreCase("Y")) {
+                System.out.println("Successfully registered. Thank you for using our System."
+                        + "\nYour ID number is " + generateID);
+                saveInfo();
+            } else if (confirmation.equalsIgnoreCase("N")) {
+                System.out.println("Submission Cancelled.");
+            } else {
+                System.out.println("Invalid input. Please enter Y or N.");
 
+            }
+        } catch (InputExitException e) {
+            System.out.println("Registration cancelled.");
         }
-
     }
 
     // this method will save the information in file as database
@@ -202,7 +206,7 @@ public class NationalIDSystem implements Forms {
             while ((line = reader.readLine()) != null) {
                 String delimiter[] = line.split("\\|"); // splits the line
                 String id = delimiter[0].trim(); // finds the id using delimiter
-                if (id == searchID) {
+                if (id.contains(searchID)) {
                     System.out.println(
                             "ID | Last Name | First Name | Middle Name | Date of Birth | Birth Country |  Birth Province | Birth City/Municipality | Marital Status | Blood Type | Address | Barangay | City/Munipality | Province | Country | Zip Code | Mobile No. | Email");
                     System.out.println(line);
