@@ -21,12 +21,9 @@ public class NationalIDSystem implements Forms {
 
     // for prompt
     private String getString(String prompt) {
-        if (prompt.equalsIgnoreCase("EXIT")) {
-            return prompt;
-        } else {
-            System.out.print(prompt);
-            return read.nextLine().trim();
-        }
+        System.out.print(prompt);
+        return read.nextLine().trim();
+
     }
 
     // this method will validate if the user input a valid gender
