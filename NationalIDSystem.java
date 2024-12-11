@@ -386,10 +386,10 @@ public class NationalIDSystem implements Forms {
                     System.out.println("Failed to delete");
                 }
             } else {
-                writer.close();
                 reader.close();
-                tempDataFile.delete(); // deletes temp if id is not found
+                writer.close();
                 System.out.println("ID NOT FOUND");
+                tempDataFile.delete(); // deletes temp if id is not found
 
             }
         } catch (IOException e) {
