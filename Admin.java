@@ -51,7 +51,7 @@ public class Admin {
 
                 switch (choice) {
                     case 1 -> system.editRecord();
-                    case 2 -> system.deleteRecord();
+                    case 2 -> system.archieveRecord();
 
                     case 3 -> system.checkRecords();
                     case 4 -> { // log out
