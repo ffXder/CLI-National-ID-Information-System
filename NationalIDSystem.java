@@ -102,7 +102,7 @@ public class NationalIDSystem implements Forms {
         try {
             // Display
             System.out.println("Please fill out the information needed. If you want to cancel type 'EXIT'. ");
-            int generateID = generate.nextInt(1000) + 500; // creates id between 500 to 1000
+            int generateID = generate.nextInt(1000) + 500; // creates id between 500 to 1000 using random
             String firstName = getString("Enter First Name (Pangalan): ");
             String middleName = getString("Enter Middle Name (Gitnang Pangalan): ");
             String lastName = getString("Enter Last Name (Apelyido): ");
