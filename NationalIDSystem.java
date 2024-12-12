@@ -16,7 +16,6 @@ public class NationalIDSystem implements Forms {
     private ArrayList<UsersRecord> database = new ArrayList<>(); // stores the data
     private Scanner read = new Scanner(System.in);
     private Random generate = new Random();
-    private int generateID = generate.nextInt(1000) + 500; // creates id between 500 to 1000
     private Utils utils = new Utils();
 
     // for prompt
@@ -103,6 +102,7 @@ public class NationalIDSystem implements Forms {
         try {
             // Display
             System.out.println("Please fill out the information needed. If you want to cancel type 'EXIT'. ");
+            int generateID = generate.nextInt(1000) + 500; // creates id between 500 to 1000
             String firstName = getString("Enter First Name (Pangalan): ");
             String middleName = getString("Enter Middle Name (Gitnang Pangalan): ");
             String lastName = getString("Enter Last Name (Apelyido): ");
@@ -141,18 +141,22 @@ public class NationalIDSystem implements Forms {
             utils.clearConsole(); // clears console
             record.displayInfo(); // then display info's inputted by user
 
-            String confirmation = getString("Press Y to confirm submission or Press N to cancel\n");
+            while (true) { // the prompt ask again if the input is invalid
+                String confirmation = getString("Press Y to confirm submission or Press N to cancel\n");
 
-            // confirmation before submitting data
-            if (confirmation.equalsIgnoreCase("Y")) {
-                System.out.println("Successfully registered. Thank you for using our System."
-                        + "\nYour ID number is " + generateID);
-                saveInfo();
-            } else if (confirmation.equalsIgnoreCase("N")) {
-                System.out.println("Submission Cancelled.");
-            } else {
-                System.out.println("Invalid input. Please enter Y or N.");
-
+                // confirmation before submitting data
+                if (confirmation.equalsIgnoreCase("Y")) {
+                    int getID = generateID;
+                    System.out.println("Successfully registered. Thank you for using our System."
+                            + "\nYour ID number is " + getID);
+                    saveInfo(getID);
+                    break;
+                } else if (confirmation.equalsIgnoreCase("N")) {
+                    System.out.println("Submission Cancelled.");
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter Y or N.");
+                }
             }
         } catch (InputExitException e) {
             System.out.println("Registration cancelled.");
@@ -160,27 +164,26 @@ public class NationalIDSystem implements Forms {
     }
 
     // this method will save the information in file as database
-    private void saveInfo() {
+    private void saveInfo(int getID) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Database.txt", true))) {
-            for (UsersRecord record : database) {
-                PersonalInfo info = record.getInfo();
-                Address address = record.getAddress();
+            UsersRecord latestRecord = database.get(database.size() - 1); // from arraylist it will get the latest input
+            PersonalInfo info = latestRecord.getInfo();
+            Address address = latestRecord.getAddress();
 
-                // 34 length
-                // 18 length without |
-                writer.write(generateID + " | " + info.getLastName() + " | " + info.getFirstName()
-                        + " | "
-                        + info.getMiddleName() + " | " + info.getGender() + " | "
-                        + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | "
-                        + info.getBirthProvince() + " | " + info.getBirthPlace()
-                        + " | " + info.getStatus() + " | " + info.getBloodType() + " | "
-                        + address.getAddress()
-                        + " | "
-                        + address.getBarangay() + " | " + address.getPlace() + " | " + address.getProvince() + " | "
-                        + address.getCountry() + " | "
-                        + address.getZipCode() + " | " + address.getMobileNum() + " | " + address.getEmail());
-                writer.newLine();
-            }
+            // 34 length
+            // 18 length without |
+            writer.write(getID + " | " + info.getLastName() + " | " + info.getFirstName()
+                    + " | "
+                    + info.getMiddleName() + " | " + info.getGender() + " | "
+                    + info.getDateOfBirth() + " | " + info.getBirthCountry() + " | "
+                    + info.getBirthProvince() + " | " + info.getBirthPlace()
+                    + " | " + info.getStatus() + " | " + info.getBloodType() + " | "
+                    + address.getAddress()
+                    + " | "
+                    + address.getBarangay() + " | " + address.getPlace() + " | " + address.getProvince() + " | "
+                    + address.getCountry() + " | "
+                    + address.getZipCode() + " | " + address.getMobileNum() + " | " + address.getEmail());
+            writer.newLine();
             writer.close();
 
         } catch (IOException e) {
