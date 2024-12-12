@@ -46,12 +46,12 @@ public class Admin {
                 System.out.println("========================");
                 System.out
                         .println(
-                                "1 - Edit Record\n2 - Archieve Record\n3 - Show Records\n4 - Log Out\n5 - Exit Program");
+                                "1 - Edit a Record\n2 - Delete a Record\n3 - Show Records\n4 - Log Out\n5 - Exit Program");
                 int choice = input.nextInt();
 
                 switch (choice) {
                     case 1 -> system.editRecord();
-                    case 2 -> system.archieveRecord();
+                    case 2 -> system.deleteRecord();
 
                     case 3 -> system.checkRecords();
                     case 4 -> { // log out

@@ -1,0 +1,2 @@
+101 | Dela Cruz | Juan | Garcia | MALE | 1999/12/11 | Philipines | Rizal | Angono | Single | A+ | 2 blk D | Kalayaan | Angono | Rizal | Philipines | 1940 | 092332932 | juan@gmail.com
+
